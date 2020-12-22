@@ -24,6 +24,8 @@ class App extends Component {
       return p.id === id;
     });
     //findIndexは指定されたモノがあったら、最初のその位置を返す。
+    //idの該当から位置の該当に変わった。keyを設定する必要があるため、
+    //keyを指定し、keyから必要な時にインデックスの指定に変えるようにfindIndexを用いる
 
     const person = {
       ...this.state.persons[personIndex]
@@ -54,7 +56,8 @@ class App extends Component {
 
   render() {
     const style = {
-      backgroundColor: "white",
+      backgroundColor: "green",
+      color: "white",
       font: "inherit",
       border: "1px solid #00acee",
       padding: "8px",
@@ -73,18 +76,31 @@ class App extends Component {
               age={person.age}
               key={person.id}
               changed={(event) => this.nameChangedHander(event, person.id)} />
-          })}
+          })
+          }
 
         </div>
       )
+      style.backgroundColor = "red"
     }
+
+    const classes = [];
+    if (this.state.persons.length <= 2) {
+      classes.push("red") // classes = ["red"]
+    }
+    if (this.state.persons.length <= 1) {
+      classes.push("bold") // classes = ["red", "bold"]
+    }
+    //classの変更はグローバルのcssファイルにクラスのを作ってから、Appでクラスの配列を作り
+    //クラスの配列を空白でjoinさせる。join(" ")
+
 
     return (
       <div className="App">
         <h1 >
           I'm a React App
         </h1>
-        <p>This is really Working</p>
+        <p className={classes.join(" ")}>This is really Working</p>
         <button
           style={style}
           onClick={this.togglePersonHandler}>Toggle Persons</button>
